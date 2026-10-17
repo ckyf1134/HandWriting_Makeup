@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="theme-color" content="#004082"/>
+<meta name="description" content="涟帆祈雨手写生成器：输入文字，选择手写字体与纸张背景，调整文字位置凌乱度、字体笔画凌乱度与随机涂改概率，导出 150 / 300 DPI 的 PNG 或 PDF 手写稿。"/>
+<title>涟帆祈雨手写生成器_在线转换</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23004082'/%3E%3Cpath d='M23.5 7.2c-4.6.5-9.2 3.2-11.7 7.2-1.4 2.3-2 5-1.7 7.6 2.5.6 5.2.2 7.5-1.1 4.1-2.3 6.7-6.6 7.2-11.3.1-.9-.5-1.5-1.3-1.4z' fill='%23ffffff'/%3E%3Cpath d='M8.5 25.5c2.2-4.6 5.6-8.1 9.8-10.5' stroke='%23a9cdf0' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"/>
+<link rel="stylesheet" href="assets/css/app.css"/>
+</head>
+<body>
+<svg class="svg-sprite" aria-hidden="true">
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 16.5h4.5"/></symbol>
+  <symbol id="i-font" viewBox="0 0 24 24"><path d="M4 19h5l1.8-4.6M19.8 19H14l-3.6-9.4M8.4 12h5.2"/><path d="M6.5 5h11"/></symbol>
+  <symbol id="i-paper" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></symbol>
+  <symbol id="i-ink" viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 16c2.4-4.2 5.6-7.4 9.6-9.7"/><path d="M12.5 4.8c1.7 1.3 2.7 2.7 3 4.2"/><circle cx="17.5" cy="6.5" r="2.1"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-.8 2-1.8 0-1.5-1.1-1.9-1.1-3 0-.9.7-1.6 1.7-1.6h1.5c2.2 0 4-1.8 4-4C20 6.5 16.4 3 12 3z"/><circle cx="7.8" cy="10.2" r="1.1"/><circle cx="11.2" cy="7.2" r="1.1"/><circle cx="15.4" cy="8.6" r="1.1"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.6 2.3c-.8.5-1.2 1-1.2 1.9"/><circle cx="12" cy="17" r=".9" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-export" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M8 11.5 12 15.5l4-4"/><path d="M4.5 17.5V19a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-1.5"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M8 7 4.5 10.5 8 14"/><path d="M4.5 10.5H14a5.5 5.5 0 0 1 0 11h-2"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="m16 7 3.5 3.5L16 14"/><path d="M19.5 10.5H10a5.5 5.5 0 0 0 0 11h2"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M4 7h3.2c4.4 0 5.2 10 9.6 10H20"/><path d="m17.5 14.5 2.5 2.5-2.5 2.5"/><path d="M4 17h3.2c1.6 0 2.7-1.3 3.8-3"/><path d="m17.5 4.5 2.5 2.5-2.5 2.5"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V5"/><path d="m8 8.5 4-4 4 4"/><path d="M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 12h10l1-12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20s1-4.2 3.6-6.8S14 7 17.5 5.2c1.4-.7 2.4.3 1.7 1.7C17.4 10.4 16 13.4 13.4 16S6.6 20 4 20z"/><path d="M13.5 6.5c1 .8 2 1.7 2.8 2.7"/></symbol>
+</svg>
+
+<div class="app" id="app">
+  <div class="app-glow" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-text">
+        <strong>涟帆祈雨手写生成器</strong>
+        <em>Lianfan Qiyu Writing Studio</em>
+      </span>
+    </div>
+
+    <div class="topbar-actions">
+      <button class="pill ghost" id="btnGuide" type="button"><span class="dot-live"></span>使用指南</button>
+      <button class="pill ghost" id="btnRandom" type="button"><svg class="ico"><use href="#i-shuffle"/></svg>换一组笔迹</button>
+      <div class="pill-group">
+        <button class="pill ghost" id="btnUndo" type="button" title="撤销 (Ctrl+Z)"><svg class="ico"><use href="#i-undo"/></svg>撤销</button>
+        <button class="pill ghost" id="btnRedo" type="button" title="重做 (Ctrl+Y)"><svg class="ico"><use href="#i-redo"/></svg>重做</button>
+      </div>
+      <span class="save-state" id="saveState">已保存到本机</span>
+      <button class="pill ghost" id="btnTheme" type="button"><svg class="ico"><use href="#i-theme"/></svg>外观</button>
+      <button class="pill ghost" id="btnSaveProject" type="button" title="保存工程文件 (Ctrl+S)">保存工程</button>
+      <button class="btn-primary" id="btnExport" type="button"><svg class="ico"><use href="#i-export"/></svg>导出手写稿</button>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs" aria-label="工作区导航"></nav>
+
+  <main class="workspace">
+    <aside class="panel" id="panel">
+      <div class="panel-head">
+        <h1 id="panelTitle">书写内容</h1>
+        <p id="panelDesc"></p>
+      </div>
+      <div class="panel-scroll" id="panelScroll"></div>
+      <div class="panel-bottom" id="panelBottom"></div>
+    </aside>
+
+    <section class="stage">
+      <div class="stage-bar">
+        <div class="stage-bar-left">
+          <span class="live"><i></i>实时预览</span>
+          <span class="stage-meta" id="stageMeta">A4 · 竖版</span>
+        </div>
+        <div class="stage-bar-right">
+          <div class="pager">
+            <button id="pagePrev" type="button" aria-label="上一页"><svg class="ico flip"><use href="#i-chevron"/></svg></button>
+            <span id="pageLabel">1 / 1</span>
+            <button id="pageNext" type="button" aria-label="下一页"><svg class="ico"><use href="#i-chevron"/></svg></button>
+          </div>
+          <div class="zoom">
+            <span>缩放</span>
+            <input type="range" id="zoomRange" min="20" max="140" step="5" value="100" aria-label="预览缩放"/>
+            <span id="zoomLabel">100%</span>
+          </div>
+          <button class="pill ghost sm" id="btnFit" type="button">整页</button>
+        </div>
+      </div>
+
+      <div class="stage-canvas" id="stageCanvas">
+        <div class="page-wrap" id="pageWrap">
+          <canvas id="pageCanvas"></canvas>
+          <div class="page-loading" id="pageLoading"><span></span>正在排布手写稿…</div>
+        </div>
+      </div>
+
+      <div class="stage-foot">
+        <span id="footPage">第 1 页 / 共 1 页</span>
+        <span class="sep"></span>
+        <span id="footChars">0 书写字符</span>
+        <span class="grow"></span>
+        <span class="foot-hint">最高 300 DPI 高清打印</span>
+      </div>
+    </section>
+  </main>
+</div>
+
+<input type="file" id="fileText" accept=".txt,.md,.docx" hidden>
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+<div class="modal-root" id="modalRoot"></div>
+
+<script src="assets/js/vendor/opentype.min.js"></script>
+<script src="assets/js/vendor/jszip.min.js"></script>
+<script src="assets/js/vendor/jspdf.umd.min.js"></script>
+<script src="assets/js/engine.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
